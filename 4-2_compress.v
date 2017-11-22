@@ -1,4 +1,5 @@
 //Figure 11.89 in the text, pg 486
+//Tin is carry in of first CSA, tout is carry out of first CSA
 module compress (input logic x, y, z, w, tin
 				output logic s, c, tout );
 	wire x_y, z_w
