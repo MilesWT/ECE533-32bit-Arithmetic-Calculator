@@ -1,25 +1,83 @@
-//From figure 11.80 on p. 482
+// Top level module
+module multiplier (input logic [31:0] Y, X,
+				   output logic [63:0] product);
 
+	logic [33:0] X_e;
+	logic [15:0] PP_array [33:0];
+	
+	assign X_e = {2'b00, X}; // X extended with 2 0's to generate PPs
+	
+	sel_encoder gen0 (
+		.x_minus ( 1'b0   ), // input
+		.x		 ( X_e[0] ), // input
+		.x_plus  ( X_e[1] ), // input
+		.Y       ( Y      ), // input [31:0]
+		.PP		 ( PP_array[0][33:0] ) // output
+		);
 
-module encoder (input logic x_minus, x, x_plus
-				output logic single, double, neg);
+	generate
+	genvar index;
+		for (index = 1; index < 16; index = index + 1)
+			begin: gen_code_label
 				
-			assign single = x_minus xor x;
+				sel_encoder encoder_inst (
+							.x_minus ( X_e[(2 * index - 1)]  ), // input
+							.x		 ( X_e[(2 * index)]      ), // input
+							.x_plus  ( X_e[(2 * index + 1)]  ), // input
+							.Y       ( Y                     ), // input [31:0]
+							.PP		 ( PP_array[index][33:0] )  // output [33:0]
+							);
+				
+			end
+	endgenerate
+
+endmodule
+
+//From figure 11.80 on p. 482
+module sel_encoder (input logic x_minus, x, x_plus, 
+					input logic [31:0] Y,
+					output logic [33:0] PP);
 			
-			assign double = (x_minus nand x nand ~x_plus) nand (~x_minus nand ~x nand x_plus);
+			// Booth Encoder
+			logic single, double, neg;
+			logic nand1, nand2;
+			
+			nand3 gate1 (
+				.in1	( x_minus ), // input
+				.in2	( ~x      ), // input
+				.in3 	( ~x_plus ), // input
+				.out    ( nand1   )  // output
+				);
+			
+			nand3 gate2 (
+				.in1	( ~x_minus ), // input
+				.in2	( ~x       ), // input
+				.in3 	( x_plus   ), // input
+				.out    ( nand2    )  // output
+				);
+			
+			assign single = x_minus ^ x;
+			
+			assign double = ~(gate1 & gate2);
 			
 			assign neg = x_plus;
-				
-endmodule: encoder
-
-module selector(input logic single, double, neg, Y[31:0]
-				output logic PP[32:0]);
 			
-			//TODO Change this to sign extended instead of 0 extended
-			wire Y_e; // Y extended with a leading 0
-			assign Y_e = {1b'0, Y};
+			// Booth Selector
+			logic [33:0] Y_e; // Y sign extended
+			assign Y_e = {neg ^ Y[31], Y};
 			
-			assign PP = ((single and Y_e) or
-						(double and (Y_e << 1))) xor neg;
+			// Append s to the LSB
+			assign PP = {((single & Y_e) |
+						(double & (Y_e << 1))) ^ neg,
+						neg};
 
-endmodule: selector
+endmodule
+
+//Three input NAND gate because Verilog sucks balls
+module nand3 (input logic in1, in2, in3
+			  output logic out);
+			  
+			  logic intermediate;
+			  assign intermediate = ~(in1 & in2);
+			  assign out = ~(intermediate & in3;
+endmodule
