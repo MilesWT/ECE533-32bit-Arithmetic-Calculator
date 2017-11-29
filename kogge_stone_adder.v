@@ -1,14 +1,14 @@
 module 32_bit_pg_kogge_stone_adder //Top level module for N-bit Carry Ripple Adder (See Fig. 11.14).
 
-  #(parameter N = 32)
+    #(parameter N = 32)
 
-   (input logic [N:1] A, B, //Two N-bit input words.
+    (input logic [N:1] A, B, //Two N-bit input words.
     input logic Cin, //1-bit carry in.
     output logic [N:1] S, //N-bit sum.
     output logic Cout); //1-bit carry out.
 
-  wire [N:1] P, G; //Wires for the N bitwise PG signals. 
-  wire [(N-1):1] C; //Wires for the N-1 carry signals.
+    wire [N:1] P, G; //Wires for the N bitwise PG signals. 
+    wire [(N-1):1] C; //Wires for the N-1 carry signals.
 
     32_Bit_Bitwise_PG BPG1 (P, G, A, B); //Instantiate bitwise PG logic, Eq. (11.5).
     32_Bit_Group_PG GPG1 (C, G[(N-1):1], P[(N-1):1], Cin); //Instantiate group PG logic, Eq. (11.10).
@@ -53,15 +53,41 @@ module 32_Bit_Group_PG //This module realizes the group PG logic of Eq (11.10) a
     input logic [(N-1):1] G, P, //PG inputs from bitwise PG logic.
     input logic Cin); //1-bit carry in.
 
-     always_comb
-      begin:GPG1 //Named group. Can have local variables, i.e. "i".
+    always_comb
+        begin:GPG1 //Named group. Can have local variables, i.e. "i".
        
         wire [N-1:2] G0Wire, P0Wire;
         wire [N-1:4] G1Wire, P1Wire;
         wire [N-1:8] G2Wire, P2Wire;
         wire [N-1:16] G3Wire, P3Wire;
         integer i;
-        for (i=)
+        // outer for loop for rows
+        for (row=0; row<5; row=row+1)
+        {
+            // inner for loops for columns
+            // gray cells
+            for (gcol=0; gcol < 2**row; gcol=gcol+1)
+            {
+                // create gray cells
+                // output logic Gi_j, //N-bit Propagate and Generate signals.
+                // input logic Gi_k, Pi_k, Gkmin1_j); //Two N-bit input words.
+                if (gcol == 0)
+                {
+                    assign G[1] = Gi_k;
+                    assign P[1] = Pi_k;
+                }
+                assign 
+
+            }
+            // black cells
+            for (bcol=2**row; bcol < row**2 - 2**row; bcol=bcol+1)
+        }
+
+
+
+
+
+
 
         GG[1] = G[1] | P[1]&Cin;//Eq. (11.10).
         for (i=2; i<=(N-1); i=i+1) //Loop saves having to write N-2 more "GG" assignment statements.
