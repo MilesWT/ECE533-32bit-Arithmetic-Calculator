@@ -1,9 +1,10 @@
 // Top level module
-module multiplier (input logic [31:0] Y, X,
+module multiplier (input logic clk, // arbitrary clk  for synthesis
+				   input logic [31:0] Y, X,
 				   output logic [63:0] product);
 
 	logic [33:0] X_e;
-	logic [15:0] PP_array [33:0];
+	logic [33:0] PP_array [15:0];
 	
 	assign X_e = {2'b00, X}; // X extended with 2 0's to generate PPs
 	
@@ -12,7 +13,7 @@ module multiplier (input logic [31:0] Y, X,
 		.x		 ( X_e[0] ), // input
 		.x_plus  ( X_e[1] ), // input
 		.Y       ( Y      ), // input [31:0]
-		.PP		 ( PP_array[0][33:0] ) // output
+		.PP		 ( PP_array[0] ) // output
 		);
 
 	generate
@@ -25,7 +26,7 @@ module multiplier (input logic [31:0] Y, X,
 							.x		 ( X_e[(2 * index)]      ), // input
 							.x_plus  ( X_e[(2 * index + 1)]  ), // input
 							.Y       ( Y                     ), // input [31:0]
-							.PP		 ( PP_array[index][33:0] )  // output [33:0]
+							.PP		 ( PP_array[index]		 )  // output [33:0]
 							);
 				
 			end
@@ -58,7 +59,7 @@ module sel_encoder (input logic x_minus, x, x_plus,
 			
 			assign single = x_minus ^ x;
 			
-			assign double = ~(gate1 & gate2);
+			assign double = ~(nand1 & nand2);
 			
 			assign neg = x_plus;
 			
@@ -74,10 +75,10 @@ module sel_encoder (input logic x_minus, x, x_plus,
 endmodule
 
 //Three input NAND gate because Verilog sucks balls
-module nand3 (input logic in1, in2, in3
+module nand3 (input logic in1, in2, in3,
 			  output logic out);
 			  
 			  logic intermediate;
 			  assign intermediate = ~(in1 & in2);
-			  assign out = ~(intermediate & in3;
+			  assign out = ~(intermediate & in3);
 endmodule
