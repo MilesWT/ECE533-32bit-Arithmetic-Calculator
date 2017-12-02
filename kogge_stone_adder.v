@@ -1,8 +1,8 @@
-module 32_bit_pg_kogge_stone_adder //Top level module for N-bit Carry Ripple Adder (See Fig. 11.14).
+module kogge_stone_adder_pg_32_bit //Top level module for N-bit Carry Ripple Adder (See Fig. 11.14).
 
     #(parameter N = 32)
 
-   (input logic [N:1] A, B, //Two N-bit input words.
+    (input logic [N:1] A, B, //Two N-bit input words.
     input logic Cin, //1-bit carry in.
     output logic [N:1] S, //N-bit sum.
     output logic Cout); //1-bit carry out.
@@ -10,17 +10,17 @@ module 32_bit_pg_kogge_stone_adder //Top level module for N-bit Carry Ripple Add
     wire [N:1] P, G; //Wires for the N bitwise PG signals. 
     wire [(N-1):1] C; //Wires for the N-1 carry signals.
 
-    // 32_Bit_Bitwise_PG BPG1 (P, G, A, B);
+    // Bitwise_PG_32_Bit BPG1 (P, G, A, B);
     //Instantiate bitwise PG logic
-    32_Bit_Bitwise_PG BPG1 (
+    Bitwise_PG_32_Bit BPG1 (
         .P ( P ),
         .G ( G ),
         .A ( A ),
         .B ( B )
     );
-    // 32_Bit_Group_PG GPG1 (C, G[(N-1):1], P[(N-1):1], Cin);
+    // Group_PG_32_Bit GPG1 (C, G[(N-1):1], P[(N-1):1], Cin);
     //Instantiate group PG logic
-    32_Bit_Group_PG GPG1 (
+    Group_PG_32_Bit GPG1 (
         .C   ( C          ),
         .G   ( G[(N-1):1] ),
         .P   ( P[(N-1):1] ),
@@ -28,7 +28,7 @@ module 32_bit_pg_kogge_stone_adder //Top level module for N-bit Carry Ripple Add
     );
     // 32_Bit_Sum_Logic SL1 (Cout, S, G[N], {C,Cin}, P);
     //Instantiate sum logic
-    32_Bit_Sum_Logic SL1 (
+    Sum_Logic_32_Bit SL1 (
         Cout ( Cout    ),
         S    ( S       ),
         GN   ( G[N]    ),
@@ -38,11 +38,11 @@ module 32_bit_pg_kogge_stone_adder //Top level module for N-bit Carry Ripple Add
 
 endmodule
 
-module 32_Bit_Bitwise_PG //This module realizes the bitwise PG logic of Eq (11.5) and FIG 11.12.
+module Bitwise_PG_32_Bit //This module realizes the bitwise PG logic of Eq (11.5) and FIG 11.12.
 
-  #(parameter N = 32) // The parameter "N" may be edited to change bit count.
-    //           [32 spaces]
-   (output logic [N:1] P, G, //N-bit Propagate and Generate signals.
+    #(parameter N = 32) // The parameter "N" may be edited to change bit count.
+    //            [32 spaces]
+    (output logic [N:1] P, G, //N-bit Propagate and Generate signals.
     input logic [N:1] A, B); //Two N-bit input words.
 
     assign G = A&B; //Bitwise AND of inputs A and B, Eq. (11.5).
@@ -50,11 +50,11 @@ module 32_Bit_Bitwise_PG //This module realizes the bitwise PG logic of Eq (11.5
 
 endmodule
 
-module 32_Bit_Group_PG //This module realizes the group PG logic of Eq (11.10) and FIG 11.14.
+module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) and FIG 11.14.
 
-  #(parameter N = 32) // The parameter "N" may be edited to change bit count.
+    #(parameter N = 32) // The parameter "N" may be edited to change bit count.
    
-   (output logic [(N-1):1] GG, //N-1 group generate signals that are output to sum logic.
+    (output logic [(N-1):1] GG, //N-1 group generate signals that are output to sum logic.
     input logic [(N-1):1] G, P, //PG inputs from bitwise PG logic.
     input logic Cin); //1-bit carry in.
 
@@ -205,11 +205,11 @@ module 32_Bit_Group_PG //This module realizes the group PG logic of Eq (11.10) a
 
 endmodule
 
-module 32_Bit_Sum_Logic //This module realizes the sum logic of Eq. (11.7) and FIG 11.14.
+module Sum_Logic_32_Bit //This module realizes the sum logic of Eq. (11.7) and FIG 11.14.
 
-  #(parameter N = 32) // The parameter "N" may be edited to change bit count.
+    #(parameter N = 32) // The parameter "N" may be edited to change bit count.
 
-   (output logic Cout, //1-bit carry out.
+    (output logic Cout, //1-bit carry out.
     output logic [N:1] S, //N-bit sum.
     input logic GN, //Most significant group generate bit.
     input logic [(N-1):0] C, //The carry signals from the group PG logic are also the group generate signals
@@ -231,29 +231,29 @@ endmodule
 
 module Black_Cell_Val2
 
-   (input logic Gi_k, Pi_k, Gkmin1_j, Pkmin1_j,
+    (input logic Gi_k, Pi_k, Gkmin1_j, Pkmin1_j,
     output logic Gi_j, Pi_j);
     assign Gi_j = Gi_k | Pi_k & Gkmin1_j
     assign Pi_j = Pimin1_j & Pi_k
 
 endmodule
 
-module test
+module testbench
 
-  #(parameter N = 64); // The parameter "N" may be edited to change bit count.
+    #(parameter N = 32); // The parameter "N" may be edited to change bit count.
 
-  logic [N:1] A, B, S;
-  logic Cin, Cout;
+    logic [N:1] A, B, S;
+    logic Cin, Cout;
 
-  n_bit_pg_carry_ripple A1 (A,B,Cin,S,Cout);
+    kogge_stone_adder_pg_32_bit A1 (A,B,Cin,S,Cout);
 
-  initial
+    initial
     begin
-     A = 0; B = 0; Cin = 0;
-     #2 A   = 64'd25;
-     #2 B   = 64'd75;
-     #2 Cin = 1'b1;
-     #6 $finish;
+        A = 0; B = 0; Cin = 0;
+        #2 A   = 32'd25;
+        #2 B   = 32'd75;
+        #2 Cin = 1'b1;
+        #6 $finish;
     end
 
 endmodule
