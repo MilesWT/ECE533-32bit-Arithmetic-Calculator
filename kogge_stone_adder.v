@@ -21,7 +21,7 @@ module kogge_stone_adder_pg_32_bit //Top level module for N-bit Carry Ripple Add
     // Group_PG_32_Bit GPG1 (C, G[(N-1):1], P[(N-1):1], Cin);
     //Instantiate group PG logic
     Group_PG_32_Bit GPG1 (
-        .C   ( C          ),
+        .GG  ( C          ),
         .G   ( G[(N-1):1] ),
         .P   ( P[(N-1):1] ),
         .Cin ( Cin        )
@@ -29,11 +29,11 @@ module kogge_stone_adder_pg_32_bit //Top level module for N-bit Carry Ripple Add
     // 32_Bit_Sum_Logic SL1 (Cout, S, G[N], {C,Cin}, P);
     //Instantiate sum logic
     Sum_Logic_32_Bit SL1 (
-        Cout ( Cout    ),
-        S    ( S       ),
-        GN   ( G[N]    ),
-        C    ( {C,Cin} ),
-        P    ( P       )
+        .Cout ( Cout    ),
+        .S    ( S       ),
+        .GN   ( G[N]    ),
+        .C    ( {C,Cin} ),
+        .P    ( P       )
     );
 
 endmodule
@@ -58,150 +58,146 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     input logic [(N-1):1] G, P, //PG inputs from bitwise PG logic.
     input logic Cin); //1-bit carry in.
 
-    always_comb
-        begin:GPG1 //Named group. Can have local variables, i.e. "i".
-       
-        // wire [N-1:2] G0Wire, P0Wire;
-        // wire [N-1:4] G1Wire, P1Wire;
-        // wire [N-1:8] G2Wire, P2Wire;
-        // wire [N-1:16] G3Wire, P3Wire;
-        wire [N:2] G0Wire, P0Wire;
-        wire [N:4] G1Wire, P1Wire;
-        wire [N:8] G2Wire, P2Wire;
-        wire [N:16] G3Wire, P3Wire;
-        assign G0Wire[0] = Cin;
-        assign G1Wire[0] = Cin;
-        assign G2Wire[0] = Cin;
-        assign G3Wire[0] = Cin;
+    wire [N:16] G0Wire;
+    wire [N:16] P0Wire;
+    wire [N:8] G1Wire;
+    wire [N:8] P1Wire;
+    wire [N:4] G2Wire;
+    wire [N:4] P2Wire;
+    wire [N:2] G3Wire;
+    wire [N:2] P3Wire;
+
+    assign G0Wire[0] = Cin;
+    assign G1Wire[0] = Cin;
+    assign G2Wire[0] = Cin;
+    assign G3Wire[0] = Cin;
         
-        // ROW 0 (1st)
-        generate
+    // ROW 0 (1st)
+    generate
             genvar gray0;
-            for (gray0 = 1; gray0 < 2; gray0=gray0+1)
-            begin: gray0_label
-                Gray_Cell_Val2 gray_cell_inst0 (
-                    .Gi_k     ( G[gray0]     ),
-                    .Pi_k     ( P[gray0]     ),
-                    .Gkmin1_j ( G[gray0 - 1] ),
-                    .Gi_j     ( GG[gray0]    )
-                );
-            end
-        endgenerate
-        generate
-            genvar black0;
-            for (black0 = 2; black0 < N-1; black0=black0+1)
-            begin: black0_label
-                Black_Cell_Val2 black_cell_inst0 (
-                    .Gi_k     ( G[black0]      ),
-                    .Pi_k     ( P[black0]      ),
-                    .Gkmin1_j ( G[black0 - 1]  ),
-                    .Pkmin1_j ( P[black0 - 1]  ),
-                    .Gi_j     ( G0Wire[black0] ),
-                    .Pi_j     ( P0Wire[black0] )
-                );
-            end
-        endgenerate
+        for (gray0 = 1; gray0 < 2; gray0=gray0+1)
+        begin: gray0_label
+            Gray_Cell_Val2 gray_cell_inst0 (
+                .Gi_k     ( G[gray0]     ),
+                .Pi_k     ( P[gray0]     ),
+                .Gkmin1_j ( G[gray0 - 1] ),
+                .Gi_j     ( GG[gray0]    )
+            );
+        end
+    endgenerate
+    generate
+        genvar black0;
+        for (black0 = 2; black0 <= N-1; black0=black0+1)
+        begin: black0_label
+            Black_Cell_Val2 black_cell_inst0 (
+                .Gi_k     ( G[black0]      ),
+                .Pi_k     ( P[black0]      ),
+                .Gkmin1_j ( G[black0 - 1]  ),
+                .Pkmin1_j ( P[black0 - 1]  ),
+                .Gi_j     ( G0Wire[black0] ),
+                .Pi_j     ( P0Wire[black0] )
+            );
+        end
+    endgenerate
 
-        // ROW 1 (2nd)
-        generate
-            genvar gray1;
-            for (gray1 = 2; gray1 < 4; gray1=gray1+1)
-            begin: gray1_label
-                Gray_Cell_Val2 gray_cell_inst1 (
-                    .Gi_k     ( G0Wire[gray1]     ),
-                    .Pi_k     ( P0Wire[gray1]     ),
-                    .Gkmin1_j ( G0Wire[gray1 - 2] ),
-                    .Gi_j     ( GG[gray1]         )
-                );
-            end
-        endgenerate
-        generate
-            genvar black1;
-            for (black1 = 4; black1 < N-1; black1=black1+1)
-            begin: black1_label
-                Black_Cell_Val2 black_cell_inst1 (
-                    .Gi_k     ( G0Wire[black1]     ),
-                    .Pi_k     ( P0Wire[black1]     ),
-                    .Gkmin1_j ( G0Wire[black1 - 2] ),
-                    .Pkmin1_j ( P0Wire[black1 - 2] ),
-                    .Gi_j     ( G1Wire[black1]     ),
-                    .Pi_j     ( P1Wire[black1]     )
-                );
-            end
-        endgenerate
+    // ROW 1 (2nd)
+    generate
+        genvar gray1;
+        for (gray1 = 2; gray1 < 4; gray1=gray1+1)
+        begin: gray1_label
+            Gray_Cell_Val2 gray_cell_inst1 (
+                .Gi_k     ( G0Wire[gray1]     ),
+                .Pi_k     ( P0Wire[gray1]     ),
+                .Gkmin1_j ( G0Wire[gray1 - 2] ),
+                .Gi_j     ( GG[gray1]         )
+            );
+        end
+    endgenerate
+    generate
+        genvar black1;
+        for (black1 = 4; black1 <= N-1; black1=black1+1)
+        begin: black1_label
+            Black_Cell_Val2 black_cell_inst1 (
+                .Gi_k     ( G0Wire[black1]     ),
+                .Pi_k     ( P0Wire[black1]     ),
+                .Gkmin1_j ( G0Wire[black1 - 2] ),
+                .Pkmin1_j ( P0Wire[black1 - 2] ),
+                .Gi_j     ( G1Wire[black1]     ),
+                .Pi_j     ( P1Wire[black1]     )
+            );
+        end
+    endgenerate
 
-        // ROW 2 (3rd)
-        generate
-            genvar gray2;
-            for (gray2 = 4; gray2 < 8; gray2=gray2+1)
-            begin: gray2_label
-                Gray_Cell_Val2 gray_cell_inst2 (
-                    .Gi_k     ( G1Wire[gray2]     ),
-                    .Pi_k     ( P1Wire[gray2]     ),
-                    .Gkmin1_j ( G1Wire[gray2 - 4] ),
-                    .Gi_j     ( GG[gray2]         )
-                );
-            end
-        endgenerate
-        generate
-            genvar black2;
-            for (black2 = 8; black2 < N-1; black2=black2+1)
-            begin: black2_label
-                Black_Cell_Val2 black_cell_inst2 (
-                    .Gi_k     ( G1Wire[black2]     ),
-                    .Pi_k     ( P1Wire[black2]     ),
-                    .Gkmin1_j ( G1Wire[black2 - 4] ),
-                    .Pkmin1_j ( P1Wire[black2 - 4] ),
-                    .Gi_j     ( G2Wire[black2]     ),
-                    .Pi_j     ( P2Wire[black2]     )
-                );
-            end
-        endgenerate
+    // ROW 2 (3rd)
+    generate
+        genvar gray2;
+        for (gray2 = 4; gray2 < 8; gray2=gray2+1)
+        begin: gray2_label
+            Gray_Cell_Val2 gray_cell_inst2 (
+                .Gi_k     ( G1Wire[gray2]     ),
+                .Pi_k     ( P1Wire[gray2]     ),
+                .Gkmin1_j ( G1Wire[gray2 - 4] ),
+                .Gi_j     ( GG[gray2]         )
+            );
+        end
+    endgenerate
+    generate
+        genvar black2;
+        for (black2 = 8; black2 <= N-1; black2=black2+1)
+        begin: black2_label
+            Black_Cell_Val2 black_cell_inst2 (
+                .Gi_k     ( G1Wire[black2]     ),
+                .Pi_k     ( P1Wire[black2]     ),
+                .Gkmin1_j ( G1Wire[black2 - 4] ),
+                .Pkmin1_j ( P1Wire[black2 - 4] ),
+                .Gi_j     ( G2Wire[black2]     ),
+                .Pi_j     ( P2Wire[black2]     )
+            );
+        end
+    endgenerate
 
-        // ROW 3 (4th)
-        generate
-            genvar gray3;
-            for (gray3 = 8; gray3 < 16; gray3=gray3+1)
-            begin: gray3_label
-                Gray_Cell_Val2 gray_cell_inst3 (
-                    .Gi_k     ( G2Wire[gray3]     ),
-                    .Pi_k     ( P2Wire[gray3]     ),
-                    .Gkmin1_j ( G2Wire[gray3 - 8] ),
-                    .Gi_j     ( GG[gray3]         )
-                );
-            end
-        endgenerate
-        generate
-            genvar black3;
-            for (black3 = 16; black3 < N-1; black3=black3+1)
-            begin: black3_label
-                Black_Cell_Val2 black_cell_inst3 (
-                    .Gi_k     ( G2Wire[black3]     ),
-                    .Pi_k     ( P2Wire[black3]     ),
-                    .Gkmin1_j ( G2Wire[black3 - 8] ),
-                    .Pkmin1_j ( P2Wire[black3 - 8] ),
-                    .Gi_j     ( G3Wire[black3]     ),
-                    .Pi_j     ( P3Wire[black3]     )
-                );
-            end
-        endgenerate
+    // ROW 3 (4th)
+    generate
+        genvar gray3;
+        for (gray3 = 8; gray3 < 16; gray3=gray3+1)
+        begin: gray3_label
+            Gray_Cell_Val2 gray_cell_inst3 (
+                .Gi_k     ( G2Wire[gray3]     ),
+                .Pi_k     ( P2Wire[gray3]     ),
+                .Gkmin1_j ( G2Wire[gray3 - 8] ),
+                .Gi_j     ( GG[gray3]         )
+            );
+        end
+    endgenerate
+    generate
+        genvar black3;
+        for (black3 = 16; black3 <= N-1; black3=black3+1)
+        begin: black3_label
+            Black_Cell_Val2 black_cell_inst3 (
+                .Gi_k     ( G2Wire[black3]     ),
+                .Pi_k     ( P2Wire[black3]     ),
+                .Gkmin1_j ( G2Wire[black3 - 8] ),
+                .Pkmin1_j ( P2Wire[black3 - 8] ),
+                .Gi_j     ( G3Wire[black3]     ),
+                .Pi_j     ( P3Wire[black3]     )
+            );
+        end
+    endgenerate
 
-        // ROW 4 (5th)
-        generate
-            genvar gray4;
-            for (gray4 = 16; gray4 < N-1; gray4=gray4+1)
-            begin: gray4_label
-                Gray_Cell_Val2 gray_cell_inst4 (
-                    .Gi_k     ( G3Wire[gray4]      ),
-                    .Pi_k     ( P3Wire[gray4]      ),
-                    .Gkmin1_j ( G3Wire[gray4 - 16] ),
-                    .Gi_j     ( GG[gray4]          )
-                );
-            end
-        endgenerate
-        // (No black cells in last row)
-
-    end
+    // ROW 4 (5th)
+    generate
+        genvar gray4;
+        for (gray4 = 16; gray4 < N-1; gray4=gray4+1)
+        begin: gray4_label
+            Gray_Cell_Val2 gray_cell_inst4 (
+                .Gi_k     ( G3Wire[gray4]      ),
+                .Pi_k     ( P3Wire[gray4]      ),
+                .Gkmin1_j ( G3Wire[gray4 - 16] ),
+                .Gi_j     ( GG[gray4]          )
+            );
+        end
+    endgenerate
+    // (No black cells in last row)
 
 endmodule
 
@@ -225,7 +221,7 @@ module Gray_Cell_Val2
 
    (input logic Gi_k, Pi_k, Gkmin1_j,
     output logic Gi_j);
-    assign Gi_j = Gi_k | Pi_k & Gkmin1_j
+    assign Gi_j = Gi_k | Pi_k & Gkmin1_j;
 
 endmodule
 
@@ -233,8 +229,8 @@ module Black_Cell_Val2
 
     (input logic Gi_k, Pi_k, Gkmin1_j, Pkmin1_j,
     output logic Gi_j, Pi_j);
-    assign Gi_j = Gi_k | Pi_k & Gkmin1_j
-    assign Pi_j = Pimin1_j & Pi_k
+    assign Gi_j = Gi_k | Pi_k & Gkmin1_j;
+    assign Pi_j = Pkmin1_j & Pi_k;
 
 endmodule
 
