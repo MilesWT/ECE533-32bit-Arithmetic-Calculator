@@ -1,4 +1,4 @@
-module kogge_stone_adder_pg_32_bit //Top level module for N-bit Carry Ripple Adder (See Fig. 11.14).
+module kogge_stone_adder_32_bit //Top level module for N-bit Carry Ripple Adder (See Fig. 11.14).
 
     #(parameter N = 32)
 
@@ -65,7 +65,6 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     wire [(N-1):16] G3Wire, P3Wire;
 
     // ROW 0 (1st)
-    // First Gray Cell in Row
     Gray_Cell_Val2 gray_cell_Cin0 (
         .Gi_k     ( G[1]  ),
         .Pi_k     ( P[1]  ),
@@ -88,7 +87,6 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     endgenerate
 
     // ROW 1 (2nd)
-    // First Gray Cell in Row
     Gray_Cell_Val2 gray_cell_Cin1 (
         .Gi_k     ( G0Wire[2]  ),
         .Pi_k     ( P0Wire[2]  ),
@@ -123,7 +121,6 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     endgenerate
 
     // ROW 2 (3rd)
-    // First Gray Cell in Row
     Gray_Cell_Val2 gray_cell_Cin2 (
         .Gi_k     ( G1Wire[4]  ),
         .Pi_k     ( P1Wire[4]  ),
@@ -158,7 +155,6 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     endgenerate
 
     // ROW 3 (4th)
-    // First Gray Cell in Row
     Gray_Cell_Val2 gray_cell_Cin3 (
         .Gi_k     ( G2Wire[8]  ),
         .Pi_k     ( P2Wire[8]  ),
@@ -193,7 +189,6 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     endgenerate
 
     // ROW 4 (5th)
-    // First Gray Cell in Row
     Gray_Cell_Val2 gray_cell_Cin4 (
         .Gi_k     ( G3Wire[16]  ),
         .Pi_k     ( P3Wire[16]  ),
@@ -249,14 +244,14 @@ module Black_Cell_Val2
 
 endmodule
 
-module testbench
+/*module testbench
 
     #(parameter N = 32); // The parameter "N" may be edited to change bit count.
 
     logic [N:1] A, B, S;
     logic Cin, Cout;
 
-    kogge_stone_adder_pg_32_bit A1 (A,B,Cin,S,Cout);
+    kogge_stone_adder_32_bit A1 (A,B,Cin,S,Cout);
 
     initial
     begin
@@ -267,4 +262,4 @@ module testbench
         #6 $finish;
     end
 
-endmodule
+endmodule*/
