@@ -186,61 +186,73 @@ always @(posedge clk or posedge reset)
 endmodule
 
 //From figure 11.80 on p. 482
-module sel_encoder (input logic [2:0] X, 
+module sel_encoder (input logic [2:0] X,
 					input logic [31:0] Y,
-					output logic [63:0] PP);
+					output logic [32:0] PP,
+					output logic [2:0] sel);
+			
+			logic [2:0] sel1;
+			assign sel = sel1;
+			encoder encode (
+							.X(X),
+							.sel(sel1)
+							);
+			
+			selector select (
+							.Y(Y),
+							.sel(sel1),
+							.PP(PP)
+							);
+endmodule
+
+module encoder (input logic [2:0] X, 
+				output logic [2:0] sel);
 			
 			// Booth Encoder
 			logic single, double, neg, x_minus, x, x_plus;
-			logic nand1, nand2;
+			logic and1, and2;
 			
 			assign x_minus = X[0];
 			assign x = X[1];
 			assign x_plus = X[2];
 			
-			nand3 gate1 (
-				.in1	( x_minus ), // input
-				.in2	( ~x      ), // input
-				.in3 	( ~x_plus ), // input
-				.out    ( nand1   )  // output
-				);
-			
-			nand3 gate2 (
-				.in1	( ~x_minus ), // input
-				.in2	( ~x       ), // input
-				.in3 	( x_plus   ), // input
-				.out    ( nand2    )  // output
-				);
+			assign and1 = x_minus & x & (~x_plus);
+			assign and2 = (~x_minus) & (~x) & x_plus;
 			
 			assign single = x_minus ^ x;
 			
-			assign double = ~(nand1 & nand2);
+			assign double = and1 | and2;
 			
 			assign neg = x_plus;
-			
-			// Booth Selector
-			logic extend; // Sign extension
-			logic [31:0] Y_intermediate; // Y output of encoder
-			
-			assign extend = neg ^ Y[31];
+			assign sel = {single, double, neg};
+endmodule
 
-			assign Y_intermediate = (((single & Y) | (double & (Y << 1))) ^ neg);
+module selector (input logic [31:0] Y,
+				 input logic [2:0] sel,
+				 output logic [32:0] PP);
+				 
+			// Booth Selector
+			logic [31:0] single, double, neg, Yshift, and1, and2, or1;
+			logic extend; // Sign extension
+			
+			assign single = {32{sel[2]}};
+			assign double = {32{sel[1]}};
+			assign neg = {32{sel[0]}};
+			assign extend = neg[0] ^ Y[31];
+			
+			assign and1 = Y & single;
+			assign Yshift = Y << 1;
+			assign and2 = Yshift & double;
+			
+			assign or1 = and1 | and2;
+			
+			assign PP[31:0] = or1 ^ neg;
 			/*assign PP[0] = neg;
 			assign PP[1] = 1'b0;
 			assign PP[33:2] = Y_intermediate;
 			assign PP[63:34] = extend;*/
-			assign PP[31:0] =  Y_intermediate;
-			assign PP[63:32] = 0'b0;
+			assign PP[32] = extend;
 			
-endmodule
-
-//Three input NAND gate because Verilog sucks balls
-module nand3 (input logic in1, in2, in3,
-			  output logic out);
-			  
-			  logic intermediate;
-			  assign intermediate = ~(in1 & in2);
-			  assign out = ~(intermediate & in3);
 endmodule
 
 module reg64 (input logic reset, clk, enable, 

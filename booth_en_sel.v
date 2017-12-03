@@ -206,52 +206,73 @@ module multiplier (input logic clk, // arbitrary clk  for synthesis
 endmodule
 
 //From figure 11.80 on p. 482
-module sel_encoder (input logic x_minus, x, x_plus, 
+module sel_encoder (input logic [2:0] X,
 					input logic [31:0] Y,
-					output logic [33:0] PP);
+					output logic [32:0] PP,
+					output logic [2:0] sel);
+			
+			logic [2:0] sel1;
+			assign sel = sel1;
+			encoder encode (
+							.X(X),
+							.sel(sel1)
+							);
+			
+			selector select (
+							.Y(Y),
+							.sel(sel1),
+							.PP(PP)
+							);
+endmodule
+
+module encoder (input logic [2:0] X, 
+				output logic [2:0] sel);
 			
 			// Booth Encoder
-			logic single, double, neg;
-			logic nand1, nand2;
+			logic single, double, neg, x_minus, x, x_plus;
+			logic and1, and2;
 			
-			nand3 gate1 (
-				.in1	( x_minus ), // input
-				.in2	( ~x      ), // input
-				.in3 	( ~x_plus ), // input
-				.out    ( nand1   )  // output
-				);
+			assign x_minus = X[0];
+			assign x = X[1];
+			assign x_plus = X[2];
 			
-			nand3 gate2 (
-				.in1	( ~x_minus ), // input
-				.in2	( ~x       ), // input
-				.in3 	( x_plus   ), // input
-				.out    ( nand2    )  // output
-				);
+			assign and1 = x_minus & x & (~x_plus);
+			assign and2 = (~x_minus) & (~x) & x_plus;
 			
 			assign single = x_minus ^ x;
 			
-			assign double = ~(nand1 & nand2);
+			assign double = and1 | and2;
 			
 			assign neg = x_plus;
-			
-			// Booth Selector
-			logic [33:0] Y_e; // Y sign extended
-			assign Y_e = {neg ^ Y[31], Y};
-			
-			// Append s to the LSB
-			assign PP = {((single & Y_e) |
-						(double & (Y_e << 1))) ^ neg,
-						neg};
-
+			assign sel = {single, double, neg};
 endmodule
 
-//Three input NAND gate because Verilog sucks balls
-module nand3 (input logic in1, in2, in3,
-			  output logic out);
-			  
-			  logic intermediate;
-			  assign intermediate = ~(in1 & in2);
-			  assign out = ~(intermediate & in3);
+module selector (input logic [31:0] Y,
+				 input logic [2:0] sel,
+				 output logic [32:0] PP);
+				 
+			// Booth Selector
+			logic [31:0] single, double, neg, Yshift, and1, and2, or1;
+			logic extend; // Sign extension
+			
+			assign single = {32{sel[2]}};
+			assign double = {32{sel[1]}};
+			assign neg = {32{sel[0]}};
+			assign extend = neg[0] ^ Y[31];
+			
+			assign and1 = Y & single;
+			assign Yshift = Y << 1;
+			assign and2 = Yshift & double;
+			
+			assign or1 = and1 | and2;
+			
+			assign PP[31:0] = or1 ^ neg;
+			/*assign PP[0] = neg;
+			assign PP[1] = 1'b0;
+			assign PP[33:2] = Y_intermediate;
+			assign PP[63:34] = extend;*/
+			assign PP[32] = extend;
+			
 endmodule
 
 module csa (input logic a, b, cin,
