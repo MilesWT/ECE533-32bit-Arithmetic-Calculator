@@ -101,10 +101,6 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
             );
         end
     endgenerate
-    for (i=2; i<=(N-1); i=i+1)
-    begin : flops1
-		Black_cell Black_first ( P[i-1], G[i-1], P[i], G[i], G1[i], P1[i] );
-	end
 
     // ROW 1 (2nd)
     Gray_Cell_Val2 gray_cell_Cin1 (
