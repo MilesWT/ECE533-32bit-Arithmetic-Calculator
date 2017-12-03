@@ -58,33 +58,35 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     input logic [(N-1):1] G, P, //PG inputs from bitwise PG logic.
     input logic Cin); //1-bit carry in.
 
-    wire [N:16] G0Wire;
-    wire [N:16] P0Wire;
-    wire [N:8] G1Wire;
-    wire [N:8] P1Wire;
-    wire [N:4] G2Wire;
-    wire [N:4] P2Wire;
-    wire [N:2] G3Wire;
-    wire [N:2] P3Wire;
+    wire [N-1:2] G0Wire, P0Wire;
+    wire [N-1:4] G1Wire, P1Wire;
+    wire [N-1:8] G2Wire, P2Wire;
+    wire [N-1:16] G3Wire, P3Wire;
 
-    assign G0Wire[0] = Cin;
-    assign G1Wire[0] = Cin;
-    assign G2Wire[0] = Cin;
-    assign G3Wire[0] = Cin;
+    // assign G0Wire[0] = Cin;
+    // assign G1Wire[0] = Cin;
+    // assign G2Wire[0] = Cin;
+    // assign G3Wire[0] = Cin;
         
     // ROW 0 (1st)
-    generate
-            genvar gray0;
-        for (gray0 = 1; gray0 < 2; gray0=gray0+1)
-        begin: gray0_label
-            Gray_Cell_Val2 gray_cell_inst0 (
-                .Gi_k     ( G[gray0]     ),
-                .Pi_k     ( P[gray0]     ),
-                .Gkmin1_j ( G[gray0 - 1] ),
-                .Gi_j     ( GG[gray0]    )
-            );
-        end
-    endgenerate
+    // generate
+    //     genvar gray0;
+    //     for (gray0 = 1; gray0 < 2; gray0=gray0+1)
+    //     begin: gray0_label
+    //         Gray_Cell_Val2 gray_cell_inst0 (
+    //             .Gi_k     ( G[gray0]     ),
+    //             .Pi_k     ( P[gray0]     ),
+    //             .Gkmin1_j ( G[gray0 - 1] ),
+    //             .Gi_j     ( GG[gray0]    )
+    //         );
+    //     end
+    // endgenerate
+    Gray_Cell_Val2 gray_cell_Cin0 (
+        .Gi_k     ( G[1]  ),
+        .Pi_k     ( P[1]  ),
+        .Gkmin1_j ( Cin   ),
+        .Gi_j     ( GG[1] )
+    );
     generate
         genvar black0;
         for (black0 = 2; black0 <= N-1; black0=black0+1)
@@ -99,11 +101,21 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
             );
         end
     endgenerate
+    for (i=2; i<=(N-1); i=i+1)
+    begin : flops1
+		Black_cell Black_first ( P[i-1], G[i-1], P[i], G[i], G1[i], P1[i] );
+	end
 
     // ROW 1 (2nd)
+    Gray_Cell_Val2 gray_cell_Cin1 (
+        .Gi_k     ( G[2]  ),
+        .Pi_k     ( P[2]  ),
+        .Gkmin1_j ( Cin   ),
+        .Gi_j     ( GG[2] )
+    );
     generate
         genvar gray1;
-        for (gray1 = 2; gray1 < 4; gray1=gray1+1)
+        for (gray1 = 2+1; gray1 < 4; gray1=gray1+1)
         begin: gray1_label
             Gray_Cell_Val2 gray_cell_inst1 (
                 .Gi_k     ( G0Wire[gray1]     ),
@@ -129,9 +141,15 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     endgenerate
 
     // ROW 2 (3rd)
+    Gray_Cell_Val2 gray_cell_Cin2 (
+        .Gi_k     ( G[4]  ),
+        .Pi_k     ( P[4]  ),
+        .Gkmin1_j ( Cin   ),
+        .Gi_j     ( GG[4] )
+    );
     generate
         genvar gray2;
-        for (gray2 = 4; gray2 < 8; gray2=gray2+1)
+        for (gray2 = 4+1; gray2 < 8; gray2=gray2+1)
         begin: gray2_label
             Gray_Cell_Val2 gray_cell_inst2 (
                 .Gi_k     ( G1Wire[gray2]     ),
@@ -157,9 +175,15 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     endgenerate
 
     // ROW 3 (4th)
+    Gray_Cell_Val2 gray_cell_Cin3 (
+        .Gi_k     ( G[8]  ),
+        .Pi_k     ( P[8]  ),
+        .Gkmin1_j ( Cin   ),
+        .Gi_j     ( GG[8] )
+    );
     generate
         genvar gray3;
-        for (gray3 = 8; gray3 < 16; gray3=gray3+1)
+        for (gray3 = 8+1; gray3 < 16; gray3=gray3+1)
         begin: gray3_label
             Gray_Cell_Val2 gray_cell_inst3 (
                 .Gi_k     ( G2Wire[gray3]     ),
@@ -185,9 +209,15 @@ module Group_PG_32_Bit //This module realizes the group PG logic of Eq (11.10) a
     endgenerate
 
     // ROW 4 (5th)
+    Gray_Cell_Val2 gray_cell_Cin4 (
+        .Gi_k     ( G[8]  ),
+        .Pi_k     ( P[8]  ),
+        .Gkmin1_j ( Cin   ),
+        .Gi_j     ( GG[8] )
+    );
     generate
         genvar gray4;
-        for (gray4 = 16; gray4 < N-1; gray4=gray4+1)
+        for (gray4 = 16+1; gray4 < N-1; gray4=gray4+1)
         begin: gray4_label
             Gray_Cell_Val2 gray_cell_inst4 (
                 .Gi_k     ( G3Wire[gray4]      ),
