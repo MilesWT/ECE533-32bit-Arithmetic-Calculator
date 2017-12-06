@@ -1,4 +1,4 @@
-module divider(A, B, Res);
+module divider 
 
     /*
     Code for divider adapted from
@@ -8,10 +8,10 @@ module divider(A, B, Res);
 
     //the size of input and output ports of the division module is generic.
     parameter N = 32;
-    //input and output ports.
-    input [N-1:0] A;
-    input [N-1:0] B;
-    output [N-1:0] Res;
+	
+	(input logic [N-1:0] A, B, 
+	 output logic [N-1:0] quotient);
+
     //internal variables
     reg [N-1:0] Res = 0;
     reg [N-1:0] a1, b1;
@@ -37,7 +37,7 @@ module divider(A, B, Res);
             else
                 a1[0] = 1;
         end
-        Res = a1;
+        quotient = a1;
     end
 
     /////////
