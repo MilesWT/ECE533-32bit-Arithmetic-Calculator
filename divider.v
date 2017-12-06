@@ -1,0 +1,103 @@
+module divider(A, B, Res);
+
+    /*
+    Code for divider adapted from
+    http://verilogcodes.blogspot.com/2015/11/synthesisable-verilog-code-for-division.html
+    Written by Vipin Lal: https://plus.google.com/101203706428430388905
+    */
+
+    //the size of input and output ports of the division module is generic.
+    parameter N = 32;
+    //input and output ports.
+    input [N-1:0] A;
+    input [N-1:0] B;
+    output [N-1:0] Res;
+    //internal variables
+    reg [N-1:0] Res = 0;
+    reg [N-1:0] a1, b1;
+    reg [N:0] p1;
+    integer i;
+
+    always@ (A or B)
+    begin
+        //initialize the variables.
+        a1 = A;
+        b1 = B;
+        p1 = 0;
+        for(i = 0; i < N; i = i+1)
+        begin //start the for loop
+            p1 = {p1[N-2:0], a1[N-1]};
+            a1[N-1:1] = a1[N-2:0];
+            p1 = p1 - b1;
+            if(p1[N-1] == 1)
+            begin
+                a1[0] = 0;
+                p1 = p1 + b1;
+            end
+            else
+                a1[0] = 1;
+        end
+        Res = a1;
+    end
+
+    /////////
+    // a1 = A;
+    // b1 = B;
+    // p1 = 0;
+    // P = N
+    // D = D << n            //-- P and D need twice the word width of N and Q
+    // for (i = N-1; i >= 0, i = i-1) //-- for example 31..0 for 32 bits
+    // begin
+    //     if (P >= 0)
+    //     begin
+    //         q[i] = +1;
+    //         P = 2 * P - D;
+    //     end
+    //     else
+    //     begin
+    //         q[i] = -1;
+    //         P = 2 * P + D;
+    //     end
+    // end
+    
+    // //-- Note: N=Numerator, D=Denominator, n=#bits, P=Partial remainder, q(i)=bit #i of quotient.
+    
+
+endmodule
+
+module tb_division;
+
+    parameter N = 32;
+    // Inputs
+    reg [N-1:0] A;
+    reg [N-1:0] B;
+    // Outputs
+    wire [N-1:0] Res;
+
+    // Instantiate the division module (UUT)
+    division #(N) uut (
+        .A   ( A   ), 
+        .B   ( B   ), 
+        .Res ( Res )
+    );
+
+    initial begin
+        // Initialize Inputs and wait for 100 ns
+        A = 0;  B = 0;
+        #100;  //Undefined inputs
+        //Apply each set of inputs and wait for 100 ns.
+        A = 100; B = 10;
+        #100;
+        A = 200; B = 40;
+        #100;
+        A = 90; B = 9;
+        #100;
+        A = 70; B = 10;
+        #100;
+        A = 16; B = 3;
+        #100;
+        A = 255; B = 5;
+        #100;
+    end
+
+endmodule
