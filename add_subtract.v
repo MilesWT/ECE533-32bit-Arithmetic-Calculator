@@ -11,16 +11,29 @@ module add_subtract
     output logic Cout); // 1-bit carry out
 
     logic [N:1] NotB;
+    logic [N:1] NewB;
+    logic DummyCout;
+
+    // 2's Complement of input B
+    kogge_stone_adder_32_bit Adder_2s_Comp (
+        .A    ( ~B        ),
+        .B    ( 32'b1     ),
+        .S    ( NotB      ),
+        .Cin  ( 1'b0      ),
+        .Cout ( DummyCout )
+    );
 
     always @(Flag)
     if (Flag)
-        assign NotB = B;
+        // Addition: A + B
+        assign NewB = B;
     else
-        assign NotB = (~B) + 1'b1; // 2's Complement
+        // Subtraction: A - B
+        assign NewB = NotB;
 
     kogge_stone_adder_32_bit Adder1 (
         .A    ( A    ),
-        .B    ( NotB ),
+        .B    ( NewB ),
         .S    ( S    ),
         .Cin  ( Cin  ),
         .Cout ( Cout )
