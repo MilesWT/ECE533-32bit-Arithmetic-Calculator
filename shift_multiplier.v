@@ -5,7 +5,7 @@ module shift_mult (input logic clk, reset, enable,
 		
 
 logic [2:0] x, x0, x1, x15;
-//logic [4:0] count;
+logic [4:0] count;
 logic [63:0] PP;
 
 
