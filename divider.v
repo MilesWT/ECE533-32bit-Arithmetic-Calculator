@@ -15,6 +15,7 @@ module divider
     //internal variablesc
     logic [N-1:0] a1, b1;
     logic [N:0] p1;
+	logic [N-1:0] result = 0;
     integer i;
 
     always@ (A or B)
@@ -36,9 +37,9 @@ module divider
             else
                 a1[0] = 1;
         end
-        quotient = a1;
+        result = a1;
     end
-
+	assign quotient = result;
     /////////
     // a1 = A;
     // b1 = B;
