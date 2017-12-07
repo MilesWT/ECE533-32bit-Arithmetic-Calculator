@@ -10,7 +10,7 @@ module divider
     #(parameter N = 32)
 	
 	(input logic [N-1:0] A, B, 
-	 output logic [N-1:0] quotient
+	 output logic [N-1:0] quotient,
 	 output logic [N-1:0] remainder);
 
     //internal variablesc
@@ -41,7 +41,7 @@ module divider
         result = a1;
     end
 	assign quotient = result;
-	assign p1 = remainder;
+	assign remainder = p1;
     /////////
     // a1 = A;
     // b1 = B;
@@ -79,18 +79,19 @@ module testbench_division;
     logic [N-1:0] B;
     // Outputs
     logic [N-1:0] Res;
-
+	logic [N-1:0] remainder;
     
     divider DUT (
         .A   ( A   ), 
         .B   ( B   ), 
-        .quotient ( Res )
+        .quotient ( Res ),
+		.remainder ( remainder)
     );
 
     initial begin
         // Initialize Inputs and wait for 100 ns
         A = 0;  B = 0;
-        #100;  //Undefined inputs
+        #100;  // Undefined inputs
         //Apply each set of inputs and wait for 100 ns.
         A = 100; B = 10;
         #100;
