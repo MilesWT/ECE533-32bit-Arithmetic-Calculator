@@ -1,4 +1,4 @@
-module kogge_stone_adder_32_bit //Top level module for N-bit Carry Ripple Adder (See Fig. 11.14).
+module kogge_stone_adder_32_bit //Top level module for 32-bit Kogge Stone Adder
 
     #(parameter N = 32)
 
@@ -22,8 +22,8 @@ module kogge_stone_adder_32_bit //Top level module for N-bit Carry Ripple Adder 
     //Instantiate group PG logic
     Group_PG_32_Bit GPG1 (
         .GG  ( C          ),
-        .G   ( G[(N-1):1] ),
-        .P   ( P[(N-1):1] ),
+        .G   ( G[N:1] ),
+        .P   ( P[N:1] ),
         .Cin ( Cin        )
     );
     // 32_Bit_Sum_Logic SL1 (Cout, S, G[N], {C,Cin}, P);
