@@ -17,7 +17,7 @@ logic [31:0] add, multiply, divide;
 
 
 // Kogge-stone multiplier
-add_subtract adder(
+add_subtract nonduplicatename(
 				   .A(a), // 32 bit Term A
 				   .B(b), // 32 bit Term B
 				   .Cin(1'b0), // Assume no carry in
@@ -44,7 +44,7 @@ divider divider(
 				);
 					  
 
-mux output_select(
+mux1 output_select(
 				  .add(add),
 				  .multiply(multiply),
 				  .divide(divide),
@@ -55,7 +55,7 @@ mux output_select(
 				  
 endmodule
 
-module mux (input logic [31:0] add, divide,
+module mux1 (input logic [31:0] add, divide,
 			input logic [31:0] multiply,
 			input logic [1:0] mux_select,
             output logic [31:0] mux_output);
