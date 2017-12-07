@@ -13,23 +13,18 @@ module add_subtract
     logic [N:1] NotB;
     logic [N:1] NewB;
     logic DummyCout;
-
+	logic [N:1] inv_b;
     // 2's Complement of input B
+	
+	assign inv_b = ~B;
+	
     kogge_stone_adder_32_bit Adder_2s_Comp (
-        .A    ( ~B        ),
+        .A    ( inv_b     ),
         .B    ( 32'b1     ),
         .S    ( NotB      ),
         .Cin  ( 1'b0      ),
         .Cout ( DummyCout )
     );
-
-    always @(Flag)
-    if (Flag)
-        // Addition: A + B
-        assign NewB = B;
-    else
-        // Subtraction: A - B
-        assign NewB = NotB;
 
     kogge_stone_adder_32_bit Adder1 (
         .A    ( A    ),
@@ -37,8 +32,28 @@ module add_subtract
         .S    ( S    ),
         .Cin  ( Cin  ),
         .Cout ( Cout )
-    );    
+    );
 
+	mux muxyo(
+			  .B(B),
+			  .NotB(inv_b),
+			  .select(Flag),
+			  .mux_output(NewB)
+			  );
+
+endmodule
+
+module mux (input logic [31:0] B, NotB,
+			input logic select,
+            output logic [31:0] mux_output);
+  always_comb
+   begin
+    case(select)
+       0: mux_output = B;
+       1: mux_output = NotB;
+       default mux_output = B;
+    endcase
+   end
 endmodule
 
 /*
