@@ -10,7 +10,8 @@ module divider
     #(parameter N = 32)
 	
 	(input logic [N-1:0] A, B, 
-	 output logic [N-1:0] quotient);
+	 output logic [N-1:0] quotient
+	 output logic [N-1:0] remainder);
 
     //internal variablesc
     logic [N-1:0] a1, b1;
@@ -40,6 +41,7 @@ module divider
         result = a1;
     end
 	assign quotient = result;
+	assign p1 = remainder;
     /////////
     // a1 = A;
     // b1 = B;
@@ -66,23 +68,23 @@ module divider
 endmodule
 
 
-/*
+
 
 module testbench_division;
 
 
     parameter N = 32;
     // Inputs
-    reg [N-1:0] A;
-    reg [N-1:0] B;
+    logic [N-1:0] A;
+    logic [N-1:0] B;
     // Outputs
-    wire [N-1:0] Res;
+    logic [N-1:0] Res;
 
-    // Instantiate the division module (UUT)
-    division #(N) uut (
+    
+    divider DUT (
         .A   ( A   ), 
         .B   ( B   ), 
-        .Res ( Res )
+        .quotient ( Res )
     );
 
     initial begin
@@ -105,4 +107,3 @@ module testbench_division;
     end
 
 endmodule
-*/

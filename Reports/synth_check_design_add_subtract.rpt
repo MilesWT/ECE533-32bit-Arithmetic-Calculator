@@ -1,0 +1,124 @@
+ 
+****************************************
+check_design summary:
+Version:     L-2016.03-SP2
+Date:        Thu Dec  7 00:41:30 2017
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                      2
+    Unconnected ports (LINT-28)                                     2
+
+Cells                                                              34
+    Connected to power or ground (LINT-32)                         33
+    Nets connected to multiple pins on same cell (LINT-33)          1
+
+Nets                                                               33
+    Unloaded nets (LINT-2)                                         33
+--------------------------------------------------------------------------------
+
+Warning: In design 'add_subtract', net 'DummyCout' driven by pin 'Adder_2s_Comp/Cout' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[1]' driven by pin 'Adder_2s_Comp/S[1]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[2]' driven by pin 'Adder_2s_Comp/S[2]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[3]' driven by pin 'Adder_2s_Comp/S[3]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[4]' driven by pin 'Adder_2s_Comp/S[4]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[5]' driven by pin 'Adder_2s_Comp/S[5]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[6]' driven by pin 'Adder_2s_Comp/S[6]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[7]' driven by pin 'Adder_2s_Comp/S[7]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[8]' driven by pin 'Adder_2s_Comp/S[8]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[9]' driven by pin 'Adder_2s_Comp/S[9]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[10]' driven by pin 'Adder_2s_Comp/S[10]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[11]' driven by pin 'Adder_2s_Comp/S[11]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[12]' driven by pin 'Adder_2s_Comp/S[12]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[13]' driven by pin 'Adder_2s_Comp/S[13]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[14]' driven by pin 'Adder_2s_Comp/S[14]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[15]' driven by pin 'Adder_2s_Comp/S[15]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[16]' driven by pin 'Adder_2s_Comp/S[16]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[17]' driven by pin 'Adder_2s_Comp/S[17]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[18]' driven by pin 'Adder_2s_Comp/S[18]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[19]' driven by pin 'Adder_2s_Comp/S[19]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[20]' driven by pin 'Adder_2s_Comp/S[20]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[21]' driven by pin 'Adder_2s_Comp/S[21]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[22]' driven by pin 'Adder_2s_Comp/S[22]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[23]' driven by pin 'Adder_2s_Comp/S[23]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[24]' driven by pin 'Adder_2s_Comp/S[24]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[25]' driven by pin 'Adder_2s_Comp/S[25]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[26]' driven by pin 'Adder_2s_Comp/S[26]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[27]' driven by pin 'Adder_2s_Comp/S[27]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[28]' driven by pin 'Adder_2s_Comp/S[28]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[29]' driven by pin 'Adder_2s_Comp/S[29]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[30]' driven by pin 'Adder_2s_Comp/S[30]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[31]' driven by pin 'Adder_2s_Comp/S[31]' has no loads. (LINT-2)
+Warning: In design 'add_subtract', net 'NotB[32]' driven by pin 'Adder_2s_Comp/S[32]' has no loads. (LINT-2)
+Warning: In design 'Group_PG_32_Bit', port 'G[32]' is not connected to any nets. (LINT-28)
+Warning: In design 'Group_PG_32_Bit', port 'P[32]' is not connected to any nets. (LINT-28)
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[32]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[31]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[30]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[29]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[28]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[27]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[26]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[25]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[24]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[23]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[22]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[21]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[20]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[19]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[18]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[17]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[16]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[15]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[14]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[13]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[12]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[11]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[10]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[9]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[8]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[7]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[6]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[5]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[4]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[3]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[2]' is connected to logic 0. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'B[1]' is connected to logic 1. 
+Warning: In design 'add_subtract', a pin on submodule 'Adder_2s_Comp' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'Cin' is connected to logic 0. 
+Warning: In design 'add_subtract', the same net is connected to more than one pin on submodule 'Adder_2s_Comp'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'B[32]', 'B[31]'', 'B[30]', 'B[29]', 'B[28]', 'B[27]', 'B[26]', 'B[25]', 'B[24]', 'B[23]', 'B[22]', 'B[21]', 'B[20]', 'B[19]', 'B[18]', 'B[17]', 'B[16]', 'B[15]', 'B[14]', 'B[13]', 'B[12]', 'B[11]', 'B[10]', 'B[9]', 'B[8]', 'B[7]', 'B[6]', 'B[5]', 'B[4]', 'B[3]', 'B[2]', 'Cin'.
+1

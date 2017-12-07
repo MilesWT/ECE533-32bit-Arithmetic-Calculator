@@ -56,7 +56,7 @@ module mux (input logic [31:0] B, NotB,
    end
 endmodule
 
-/*
+
 module testbench
 
     #(parameter N = 32); // The parameter "N" may be edited to change bit count.
@@ -79,9 +79,10 @@ module testbench
         A = 0; B = 0; Cin = 0; Flag = 0;
         #2 A   = 32'd75;
         #2 B   = 32'd25;
-        #2 Cin = 1'b0;
+
+		#2 A = 75; B = 25; Flag = 1;
         #6 $finish;
     end
 
 endmodule
-*/
+

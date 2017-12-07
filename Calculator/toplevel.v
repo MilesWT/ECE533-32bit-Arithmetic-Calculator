@@ -1,4 +1,3 @@
-`include "/home/rmuri/ECE_533/ASIC_Design/src/Calculator/kogge_stone_adder.v"
 `include "/home/rmuri/ECE_533/ASIC_Design/src/Calculator/add_subtract.v"
 `include "/home/rmuri/ECE_533/ASIC_Design/src/Calculator/divider.v"
 `include "/home/rmuri/ECE_533/ASIC_Design/src/Calculator/shift_multiplier.v"
@@ -6,7 +5,7 @@ module control (input logic [31:0] a, b,
 				input logic [1:0] select,
 				input logic clk, enable, reset,
 				output logic overflow,
-				output logic [31:0] control_output);
+				output logic [31:0] control_output, remainder);
 // a and b get connnected to adder, multiplier, divider
 // Select 0 connected to adder to choose between add/subtract
 // Arithmetic units get connected to mux
@@ -33,14 +32,15 @@ shift_mult multiplier(
 					  .enable(enable), // Enable needs to start low and go high before reset goes low
 					  .Y(a), // 32 bit Factor Y
 					  .X(b), // 32 bit Factor X
-					  .product(multiply) // 64 bit output
+					  .product(3) // 64 bit output
 					  );
 
 // Restoring division					  
 divider divider(
 				.A(a), // 32 bit input
 				.B(b), // 32 bit divisor
-				.quotient(divide) // 32 bit quotient
+				.quotient(divide), // 32 bit quotient
+				.remainder(remainder)
 				);
 					  
 
@@ -71,56 +71,65 @@ module mux1 (input logic [31:0] add, divide,
    end
 endmodule
 
+/*
 module top_tb();
-	logic [31:0] a, b;
-	logic [1:0] select;
-	logic clk, enable, reset;
-	logic overflow;
-	logic [31:0] out;
+logic [31:0] a, b;
+logic [1:0] select;
+logic clk, enable, reset;
+logic overflow;
+logic [31:0] out;
 	
-	control DUT(
-				.a(a),
-				.b(b),
-				.select(select),
-				.clk(clk), 
-				.enable(enable), 
-				.reset(reset),
-				.overflow(overflow),
-				.control_output(out)
-				);
-				
+control DUT(
+			.a(a),
+			.b(b),
+			.control_output(out),
+			.select(select),
+			.clk(clk), 
+			.enable(enable), 
+			.reset(reset),
+			.overflow(overflow)
+			);
+			
 	
-	initial begin 
-		clk = 1'b0;
-		forever #50 clk = ~clk;
-	end
+initial begin 
+	clk = 1'b0;
+	forever #50 clk = ~clk;
+end
 	
 initial begin
+
 
 reset = 1'b1;
 enable = 1'b0;
 select = 2'b00;
-// Multiplication
 		
-// -2 * 2 = 4
-a = 32'b1000_0000_0000_0000_0000_0000_0000_0010;
-b = 32'b0000_0000_0000_0000_0000_0000_0000_0010;
-				
-#50 enable = 1'b1;
+// 39 * 25 = 975
+a = 32'b0000_0000_0000_0000_0000_0000_0001_1001;
+b = 32'b0000_0000_0000_0000_0000_0000_0010_0111;
+		
+#50 enable = 1'b1; select = 2'b10;
 #50 reset = 1'b0;
 		
 #1900 enable = 1'b0; reset = 1'b1;
 
-// 25 * 39 = 975
-a = 32'b0000_0000_0000_0000_0000_0000_0001_1001;
-b = 32'b0000_0000_0000_0000_0000_0000_0010_0111;
-			
-#1900 select = 2'b00;
+
+//-2 * 2 = -4
+a = 32'b1000_0000_0000_0000_0000_0000_0000_0010;
+b = 32'b0000_0000_0000_0000_0000_0000_0000_0010;
+		
+#50 enable = 1'b1;
+#50 reset = 1'b0;
+		
+
+#1900
+
+		
+select = 2'b00;
 
 // Subtraction
 a = 0; b = 0;
 #50 a = 32'd75; b = 32'd25; // 75 - 25 = 50
-#50 b = 32'd100; // -75 - 25 = -100
+#50 b = 32'd280; //  - 25 = -100
 
 #50 select = 2'b01;
 // Addition
@@ -134,3 +143,4 @@ a = 200; b = 40;
 #1000 $finish;
 end
 endmodule
+*/
