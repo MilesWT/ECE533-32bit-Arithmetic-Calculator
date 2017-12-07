@@ -64,8 +64,11 @@ module divider
 
 endmodule
 
+
 /*
-module tb_division;
+
+module testbench_division;
+
 
     parameter N = 32;
     // Inputs
