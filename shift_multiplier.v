@@ -1,12 +1,12 @@
 module shift_mult (input logic clk, reset, enable,
 				   input logic [31:0] Y, X,
-				   output logic [63:0] product
+				   output logic [31:0] product
 				   );
 		
 
-logic [2:0] x, x0, x1, x15;
+logic [2:0] x, x0, x15, sign;
 logic [4:0] count;
-logic [63:0] PP;
+logic [63:0] PP, hold, prod_full;
 
 
 parameter zero = 5'b00000, one = 5'b00001, two = 5'b00010, three = 5'b00011, four = 5'b00100;
@@ -16,6 +16,8 @@ parameter thirteen = 5'b01101, fourteen = 5'b01110, fifteen = 5'b01111, sixteen 
 parameter start = 5'b11111, finish = 5'b10001, ready = 5'b11110;
 assign x0 = {X[1:0], 1'b0};
 assign x15 = {2'b0, X[31]};
+assign product = {sign, prod_full[30:0]};
+assign sign = Y[31] ^ X[31];
 
 // Booth encoder/selector
 sel_encoder pp (
@@ -31,7 +33,7 @@ reg64 add1(
 			.clk(clk),
 			.enable(enable),
 			.D(hold),
-			.Q(product)
+			.Q(prod_full)
 			);
 // State machine defines shift size of partial product
 // Rotates the x value going into booth encoder, and shifts
@@ -295,9 +297,9 @@ endmodule
 module shift_tb();
 	logic clk, rst, enable;
 	logic [31:0] Y, X;
-	logic [63:0] product, hold;
-	//logic [63:0] add1, add2, sum1, add3, sum2, add4, sum3;
-	logic [4:0] count;
+	logic [31:0] product;
+	//logic [63:0] hold, add1, add2, sum1, add3, sum2, add4, sum3;
+	//logic [4:0] count;
 
 	
 	shift_mult DUT(
@@ -306,9 +308,7 @@ module shift_tb();
 		.enable(enable),
 		.Y(Y),
 		.X(X),
-		.product(product),
-		.hold(hold),
-		.count(count)
+		.product(product)
 		);
 		
 	initial begin 
@@ -320,27 +320,35 @@ module shift_tb();
 		rst = 1'b1;
 		enable = 1'b0;
 		
-		//Problem from book
+		//Problem from book 25 * 39 = 975
 		//Y = 32'b0000_0000_0000_0000_0000_0000_0001_1001;
 		//X = 32'b0000_0000_0000_0000_0000_0000_0010_0111;
 		
-		//-1073741824 * 2 = -2147483648
-		Y = 32'b0000_0000_0000_0000_0000_0000_0000_0010;
-		X = 32'b1100_0000_0000_0000_0000_0000_0000_0000;
+		//-2 * 2 = 4
+		Y = 32'b1000_0000_0000_0000_0000_0000_0000_0010;
+		X = 32'b0000_0000_0000_0000_0000_0000_0000_0010;
 		
 		//Problem from book with intermediate steps calculated
-		/*
-		add1 = 64'b1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1110_0111;
-		add2 = 64'b0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_1100_1000; 
-		sum1 =  add1 + add2;
-		add3 = 64'b1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1100_1110_0000;
-		sum2 = add3 + sum1;
-		add4 = 64'b0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0110_0100_0000;
-		sum3 = add4 + sum2;
-		*/
+		// add1 = 64'b1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1110_0111;
+		// add2 = 64'b0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_1100_1000; 
+		// sum1 =  add1 + add2;
+		// add3 = 64'b1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1111_1100_1110_0000;
+		// sum2 = add3 + sum1;
+		// add4 = 64'b0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0110_0100_0000;
+		// sum3 = add4 + sum2;
+		
 		
 		#50 enable = 1'b1;
 		#50 rst = 1'b0;
-		#3500 $finish;
+		
+		#3000 enable = 1'b0; rst = 1'b1;
+		Y = 32'b0000_0000_0000_0000_0000_0000_0001_1001;
+		X = 32'b0000_0000_0000_0000_0000_0000_0010_0111;
+		
+		#50 enable = 1'b1;
+		#50 rst = 1'b0;
+		
+
+		#1900 $finish;
 	end
 endmodule

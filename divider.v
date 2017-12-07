@@ -7,15 +7,14 @@ module divider
     */
 
     //the size of input and output ports of the division module is generic.
-    parameter N = 32;
+    #(parameter N = 32)
 	
 	(input logic [N-1:0] A, B, 
 	 output logic [N-1:0] quotient);
 
-    //internal variables
-    reg [N-1:0] Res = 0;
-    reg [N-1:0] a1, b1;
-    reg [N:0] p1;
+    //internal variablesc
+    logic [N-1:0] a1, b1;
+    logic [N:0] p1;
     integer i;
 
     always@ (A or B)
@@ -65,6 +64,7 @@ module divider
 
 endmodule
 
+/*
 module tb_division;
 
     parameter N = 32;
@@ -101,3 +101,4 @@ module tb_division;
     end
 
 endmodule
+*/

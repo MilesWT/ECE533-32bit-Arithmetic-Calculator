@@ -1,5 +1,5 @@
-`include "/home/mtricarico/Documents/ECE533/ASIC_Design/src/kogge_stone_adder.v"
-
+//include "/home/mtricarico/Documents/ECE533/ASIC_Design/src/kogge_stone_adder.v"
+`include "/home/rmuri/ECE_533/ASIC_Design/src/Calculator/kogge_stone_adder.v"
 module add_subtract
 
     #(parameter N = 32) // The parameter "N" may be edited to change bit count.
@@ -28,6 +28,7 @@ module add_subtract
 
 endmodule
 
+/*
 module testbench
 
     #(parameter N = 32); // The parameter "N" may be edited to change bit count.
@@ -55,3 +56,4 @@ module testbench
     end
 
 endmodule
+*/
