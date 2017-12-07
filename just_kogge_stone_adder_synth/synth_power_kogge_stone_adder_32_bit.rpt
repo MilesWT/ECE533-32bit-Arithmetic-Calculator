@@ -1,0 +1,190 @@
+Information: Propagating switching activity (medium effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+ 
+****************************************
+Report : power
+        -analysis_effort medium
+Design : kogge_stone_adder_32_bit
+Version: L-2016.03-SP2
+Date   : Thu Dec  7 00:30:07 2017
+****************************************
+
+
+Library(s) Used:
+
+    saed32rvt_tt1p05v25c (File: /usr/local/synopsys/SAED32_EDK/lib/stdcell_rvt/db_ccs/saed32rvt_tt1p05v25c.db)
+
+
+Operating Conditions: tt1p05v25c   Library: saed32rvt_tt1p05v25c
+Wire Load Model Mode: enclosed
+
+Design        Wire Load Model            Library
+------------------------------------------------
+kogge_stone_adder_32_bit
+                       8000              saed32rvt_tt1p05v25c
+Bitwise_PG_32_Bit      8000              saed32rvt_tt1p05v25c
+Group_PG_32_Bit        8000              saed32rvt_tt1p05v25c
+Sum_Logic_32_Bit       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_30      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_97     ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_0       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_1       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_2       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_3       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_4       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_5       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_6       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_7       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_8       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_9       ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_10      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_11      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_12      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_13      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_14      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_15      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_16      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_17      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_18      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_19      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_20      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_21      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_22      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_23      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_24      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_25      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_26      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_27      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_28      ForQA             saed32rvt_tt1p05v25c
+Gray_Cell_Val2_29      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_0      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_1      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_2      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_3      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_4      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_5      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_6      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_7      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_8      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_9      ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_10     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_11     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_12     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_13     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_14     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_15     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_16     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_17     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_18     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_19     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_20     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_21     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_22     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_23     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_24     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_25     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_26     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_27     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_28     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_29     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_30     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_31     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_32     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_33     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_34     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_35     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_36     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_37     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_38     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_39     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_40     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_41     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_42     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_43     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_44     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_45     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_46     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_47     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_48     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_49     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_50     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_51     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_52     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_53     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_54     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_55     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_56     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_57     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_58     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_59     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_60     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_61     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_62     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_63     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_64     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_65     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_66     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_67     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_68     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_69     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_70     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_71     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_72     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_73     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_74     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_75     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_76     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_77     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_78     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_79     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_80     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_81     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_82     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_83     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_84     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_85     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_86     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_87     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_88     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_89     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_90     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_91     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_92     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_93     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_94     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_95     ForQA             saed32rvt_tt1p05v25c
+Black_Cell_Val2_96     ForQA             saed32rvt_tt1p05v25c
+
+
+Global Operating Voltage = 1.05 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000ff
+    Time Units = 1ns
+    Dynamic Power Units = 1uW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  =   0.0000 uW    (0%)
+  Net Switching Power  = 132.4612 uW  (100%)
+                         ---------
+Total Dynamic Power    = 132.4612 uW  (100%)
+
+Cell Leakage Power     =  20.8663 uW
+
+Information: report_power power group summary does not include estimated clock tree power. (PWR-789)
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register           0.0000            0.0000            0.0000            0.0000  (   0.00%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational      0.0000          132.4612        2.0866e+07          153.3274  ( 100.00%)
+--------------------------------------------------------------------------------------------------
+Total              0.0000 uW       132.4612 uW     2.0866e+07 pW       153.3274 uW
+1
